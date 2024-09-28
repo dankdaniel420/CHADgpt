@@ -45,13 +45,12 @@ def evaluate():
     for i in range(10):
         weight = nextgeneration(colony, weight)
         logging.info("current colony: {}".format(i))
-        logging.info("current colony: {}".format(colony))
 
     result.append(str(weight))
 
-    # for i in range(40):
-    #     colony, weight = nextgeneration(colony, weight % 100)
-    #     logging.info("current colony: {}".format(10 + i))
+    for i in range(40):
+        weight = nextgeneration(colony, weight)
+        logging.info("current colony: {}".format(10 + i))
     
     result.append(str(weight))
 
