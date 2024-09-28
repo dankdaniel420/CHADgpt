@@ -26,6 +26,10 @@ def evaluate():
     dictionary = data[0]["dictionary"]
     mistypes = data[0]["mistypes"]
 
+    if len(mistypes[0]) > 20:
+        result = {"corrections":corrections}
+        return json.dumps(result)
+
     for word in mistypes:
         dict_word = ""
         for ans in dictionary:
@@ -38,5 +42,6 @@ def evaluate():
                 break
         
         dictionary.remove(dict_word)
-
-    return json.dumps([{"corrections":corrections}])
+    
+    result = {"corrections":corrections}
+    return [result]
