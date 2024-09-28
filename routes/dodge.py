@@ -85,15 +85,15 @@ def find_safe(map:list) -> list:
                 for k in range(j,len(map[i])):
                     if (i,k) not in unsafe:
                         unsafe.append((i,k))    
-            elif "l" in map[i][j]:
+            if "l" in map[i][j]:
                 for k in range(0,j+1):
                     if (i,k) not in unsafe:
                         unsafe.append((i,k))    
-            elif "d" in map[i][j]:
+            if "d" in map[i][j]:
                 for k in range(i,len(map)):
                     if (k,j) not in unsafe:
                         unsafe.append((k,j))  
-            elif "u" in map[i][j]:
+            if "u" in map[i][j]:
                 for k in range(0,i+1):
                     if (k,j) not in unsafe:
                         unsafe.append(k,j)  
@@ -101,6 +101,9 @@ def find_safe(map:list) -> list:
                 safe.append((i,j))
     
     safe = [x for x in safe if x not in unsafe]
+
+    logging.info("safe: {}".format(safe))
+    logging.info("unsafe: {}".format(unsafe))
 
     return safe
 
@@ -114,7 +117,7 @@ def find_man(map:list) -> list:
 
 def is_safe(map:list, location:tuple) -> bool:
     x, y = location
-    logging.info("man safety loc: {}".format(location))
+    # logging.info("man safety loc: {}".format(location))
     for _ in range(4):
         try:
             # bullet from top
@@ -210,8 +213,7 @@ def get_nearer(safe:list, moves:list) -> tuple:
 @app.route('/dodge', methods=['POST'])
 def evaluate():
     data = request.data.decode().replace("\r\n","N")
-    logging.info("data received: {}".format(data))
-    instructions = []
+    # logging.info("data received: {}".format(data))
     map = []
     row = []
     for char in data:
@@ -226,27 +228,38 @@ def evaluate():
 
     safe = find_safe(map)
     man = find_man(map)
+    move_tracker = [[man]]
+    
+    # logging.info("move_tracker: {}".format(move_tracker))
 
-    while man not in safe:
-        x,y = man
+    while len(move_tracker) > 0:
 
-        safe_moves = find_moves(map, man)
-        if len(safe_moves) == 0:
-            return json.dumps({"instructions":None})
+        for x in move_tracker:
+            last = x[-1]
+            if last in safe:
+                instructions = []
+                for i in range(len(x)-1):
+                    instructions.append(get_direction(x[i],x[i+1]))
         
-        elif len(safe_moves) == 1:
-            man = safe_moves[0]
-        else:
-            man = get_nearer(safe=safe, moves=safe_moves)
-        
-        direction = get_direction((x,y), man)
-        instructions.append(direction)
-        logging.info("man position: {}".format(man))
-        logging.info("instructions received: {}".format(instructions))
+                return json.dumps({"instructions":instructions})
+            
+        new_move_tracker = []
+        # new_pos = []
+        for prev in move_tracker:
+            # logging.info("prev: {}".format(prev))
+            pos = prev[-1]
+            # logging.info("position: {}".format(pos))
+            safe_moves = find_moves(map, pos)
+            # new_pos += [x for x in safe_moves if x not in new_pos]
+            if len(safe_moves) > 0:
+                new_move_tracker += [prev + [x] for x in safe_moves]
+
+        move_tracker = new_move_tracker
+
+        logging.info("move history: {}".format(move_tracker))
         map = map_class.update_map()
+        safe = find_safe(map)
 
-    result = {"instructions":instructions}
 
-    logging.info("My result :{}".format(result))
-    return json.dumps(result)
+    return json.dumps({"instructions":None})
 
