@@ -27,7 +27,7 @@ def evaluate():
         dictionary = dict["dictionary"]
         mistypes = dict["mistypes"]
 
-        if len(mistypes[0]) > 20:
+        if len(mistypes[0]) >= 20:
             result.append({"corrections":corrections})
 
         for word in mistypes:
