@@ -2,7 +2,6 @@ import logging
 import json
 
 from flask import request
-from flask import jsonify
 
 from routes import app
 
@@ -40,4 +39,4 @@ def evaluate():
         
         dictionary.remove(dict_word)
 
-    return json.dumps({"corrections":corrections})
+    return json.dumps([{"corrections":corrections}])
