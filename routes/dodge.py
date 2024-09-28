@@ -37,6 +37,10 @@ def find_safe(map:list) -> list:
 
 def action(map:list, man:tuple) -> list:
     
+    unsafe = []
+
+
+
 
 @app.route('/dodge', methods=['POST'])
 def evaluate():
