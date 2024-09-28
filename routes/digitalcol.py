@@ -5,31 +5,29 @@ from flask import request
 
 from routes import app
 
-def nextgeneration(current:list, weight: int) -> (list, int):
+def nextgeneration(current:list, weight: int) -> int:
 
     last = current[-1]
-    new_list = []
 
     modulo_weight = weight % 10
-    additional_weight = 0
+
+    j = 0
 
     for i in range(len(current)-1):
-        int_p1 = current[i]
-        int_p2 = current[i+1]
+        int_p1 = current[i + j]
+        int_p2 = current[i + 1 + j]
 
         signature = int_p1 - int_p2
         if signature < 0:
             signature += 10
         
         int_child = (signature + modulo_weight) % 10
-        additional_weight += int_child
+        weight += int_child
 
-        new_list.append(int_p1)
-        new_list.append(int_child)
+        current.insert(i + j + 1, int_child)
+        j += 1
 
-    new_list.append(current[-1])
-
-    return new_list, weight
+    return weight
 
 
 @app.route('/digital-colony', methods=['POST'])
@@ -45,8 +43,9 @@ def evaluate():
         weight += num
     
     for i in range(10):
-        colony, weight = nextgeneration(colony, weight)
+        weight = nextgeneration(colony, weight)
         logging.info("current colony: {}".format(i))
+        logging.info("current colony: {}".format(colony))
 
     result.append(str(weight))
 
