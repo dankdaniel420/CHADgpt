@@ -17,12 +17,12 @@ def evaluate():
 
     correctionDict = {}
     corrections = []
+    
+    dictionary = data.get("dictionary")
+    mistypes = data.get("mistypes")
 
-    for jsonData in data:
-        dictionary = jsonData["dictionary"]
-        mistypes = jsonData["mistypes"]
+ 
 
         
 
-        # logging.info("efficiency :{}".format(result))
     return jsonify(result)

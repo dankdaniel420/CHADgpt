@@ -118,25 +118,34 @@ def find_man(map:list) -> list:
 def is_safe(map:list, location:tuple) -> bool:
     x, y = location
     # logging.info("man safety loc: {}".format(location))
-    for _ in range(4):
-        try:
-            # bullet from top
-            if x > 0 and "d" in map[x-1][y]:
-                return False
-            # bullet from bottom
-            elif "u" in map[x+1][y]:
-                return False
-            # bullet from left
-            elif y > 0 and "r" in map[x][y-1]:
-                return False
-            # bullet from right
-            elif "l" in map[x][y+1]:
-                return False
-            else:
-                break
+    try:
+        # bullet from top
+        if x > 0 and "d" in map[x-1][y]:
+            return False
+        
+    except IndexError:
+        pass
 
-        except IndexError:
-            continue
+    try:
+        # bullet from bottom
+        if "u" in map[x+1][y]:
+            return False
+    except IndexError:
+        pass
+
+    try:
+        # bullet from left
+        if y > 0 and "r" in map[x][y-1]:
+            return False
+    except IndexError:
+        pass
+
+    try:
+        # bullet from right
+        if "l" in map[x][y+1]:
+            return False
+    except IndexError:
+        pass
     
     return True
 
@@ -238,7 +247,7 @@ def evaluate():
     man = find_man(map)
     move_tracker = [[man]]
     
-    # logging.info("move_tracker: {}".format(move_tracker))
+    # logging.info("safe spot: {}".format(safe))
 
     while len(move_tracker) > 0:
 
@@ -259,6 +268,7 @@ def evaluate():
             pos = prev[-1]
             # logging.info("position: {}".format(pos))
             safe_moves = find_moves(map, pos)
+            # logging.info("safe moves: {}".format(safe_moves))
             # new_pos += [x for x in safe_moves if x not in new_pos]
             if len(safe_moves) > 0:
                 new_move_tracker += [prev + [x] for x in safe_moves]
