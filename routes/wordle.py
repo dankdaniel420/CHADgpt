@@ -25,6 +25,9 @@ def evaluate():
     solver_multi.max_try_indexes_for_lists = [2, sys.maxsize]
 
     for i in range(0, len(guesses)):
+        if eval[i] == "OOOOO":
+            break
+        
         solver_multi.input_guess_result(guesses[i], eval[i].lower())
     
     suggested_words = solver_multi.get_suggested_words()
