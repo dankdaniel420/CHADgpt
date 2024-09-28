@@ -18,18 +18,18 @@ def cmp_words(w1:str, w2:str) -> bool:
 @app.route('/the-clumsy-programmer', methods=['POST'])
 def evaluate():
     data = request.get_json()
-    logging.info("data sent for evaluation {}".format(data))
 
     result = []
 
     for dict in data:
         corrections = []
-        dictionary = dict["dictionary"]
-        mistypes = dict["mistypes"]
-
-        if len(mistypes[0]) >= 20:
-            result.append({"corrections":corrections})
+        if len(dict["dictionary"][0]) >= 20:
             continue
+
+        dictionary = dict["dictionary"]
+        logging.info("dictionary for evaluation {}".format(dictionary[0]))
+        mistypes = dict["mistypes"]
+        logging.info("mistypes for evaluation {}".format(mistypes[0]))
 
         for word in mistypes:
             start = word[0]
