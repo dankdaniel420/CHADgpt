@@ -29,6 +29,7 @@ def evaluate():
 
         if len(mistypes[0]) >= 20:
             result.append({"corrections":corrections})
+            continue
 
         for word in mistypes:
             start = word[0]
