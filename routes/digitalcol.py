@@ -10,7 +10,8 @@ def nextgeneration(current:list, weight: int) -> (list, int):
     last = current[-1]
     new_list = []
 
-    modulo_weight = weight % 100
+    modulo_weight = weight % 10
+    additional_weight = 0
 
     for i in range(len(current)-1):
         int_p1 = current[i]
@@ -21,7 +22,7 @@ def nextgeneration(current:list, weight: int) -> (list, int):
             signature += 10
         
         int_child = (signature + modulo_weight) % 10
-        weight += int_child
+        additional_weight += int_child
 
         new_list.append(int_p1)
         new_list.append(int_child)
@@ -49,9 +50,9 @@ def evaluate():
 
     result.append(str(weight))
 
-    for i in range(40):
-        colony, weight = nextgeneration(colony, weight % 100)
-        logging.info("current colony: {}".format(10 + i))
+    # for i in range(40):
+    #     colony, weight = nextgeneration(colony, weight % 100)
+    #     logging.info("current colony: {}".format(10 + i))
     
     result.append(str(weight))
 
