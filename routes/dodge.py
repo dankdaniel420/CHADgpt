@@ -212,21 +212,25 @@ def get_nearer(safe:list, moves:list) -> tuple:
 
 @app.route('/dodge', methods=['POST'])
 def evaluate():
-    data = request.data.decode()
+    data = request.data.decode('utf-8')
     logging.info("initial data received: {}".format(data))
     map = []
+    row = []
 
     for char in data:
-        map.append([char])
+        if char == '\r':
+            continue
+        elif char == '\n':
+            map.append(row)
+            row = []
+        else:    
+            row.append(char)
 
-    # row = []
-    # for char in new_data:
-    #     if char == "N":
-    #         map.append(row)
-    #         row = []
-    #     else:
-    #         row.append([char])
-    # map.append(row)
+    map.append(row)
+
+    
+    logging.info("initial map: {}".format(map))
+
 
     map_class = Map(map)
 
@@ -263,7 +267,7 @@ def evaluate():
 
         # logging.info("move history: {}".format(move_tracker))
         map = map_class.update_map()
-        logging.info("return: {}".format(map))
+        # logging.info("return: {}".format(map))
         safe = find_safe(map)
 
     logging.info("return: {}".format(None))
