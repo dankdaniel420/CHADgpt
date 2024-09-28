@@ -1,11 +1,14 @@
 import logging
 import json
+from bisect import bisect_left, bisect_right
 
 from flask import request
 
 from routes import app
 
 logger = logging.getLogger(__name__)
+    
+
 
 def cmp_words(w1:str, w2:str) -> bool:
     count = 0
@@ -28,7 +31,7 @@ def evaluate():
 
     if len(mistypes[0]) > 20:
         result = {"corrections":corrections}
-        return json.dumps(result)
+        return [result]
 
     for word in mistypes:
         dict_word = ""
