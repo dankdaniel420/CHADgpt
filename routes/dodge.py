@@ -214,17 +214,19 @@ def get_nearer(safe:list, moves:list) -> tuple:
 def evaluate():
     data = request.data.decode()
     logging.info("initial data received: {}".format(data))
-    new_data = data.replace("\r\n","N")
-    logging.info("afterwards data received: {}".format(new_data))
     map = []
-    row = []
-    for char in new_data:
-        if char == "N":
-            map.append(row)
-            row = []
-        else:
-            row.append([char])
-    map.append(row)
+
+    for char in data:
+        map.append([char])
+
+    # row = []
+    # for char in new_data:
+    #     if char == "N":
+    #         map.append(row)
+    #         row = []
+    #     else:
+    #         row.append([char])
+    # map.append(row)
 
     map_class = Map(map)
 
