@@ -36,16 +36,9 @@ def evaluate():
         logging.info("mistypes for evaluation {}".format(mistypes[0]))
 
         for word in mistypes:
-            start = word[0]
-            end = word[-1]
-            dict_word = ""
             for ans in dictionary:
-                if len(ans) != len(word):
-                    continue
-
                 if cmp_words(ans, word):
-                    dict_word = ans
-                    corrections.append(dict_word)
+                    corrections.append(ans)
                     break
         
         result.append({"corrections":corrections})
