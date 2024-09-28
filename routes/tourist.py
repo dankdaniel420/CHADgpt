@@ -116,7 +116,7 @@ TIME = {
 }
 
 
-@app.route('/wordle-game', methods=['POST'])
+@app.route('/tourist', methods=['POST'])
 def evaluate():
     data = request.get_json()
     logging.info("data received: {}".format(data))
