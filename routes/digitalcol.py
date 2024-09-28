@@ -1,49 +1,8 @@
 import json
 import logging
-import numpy as np
-import csv
 
 from flask import request
-from routes import CustomThread
 from routes import app
-
-def weigh_colony(colony:str, weight:int):
-    additional_weight = 0
-    new_str = ""
-
-    for i in range(len(colony) - 1):
-        signature = int(colony[i]) - int(colony[i+1])
-        if signature < 0:
-            signature += 10
-        
-        int_child = (signature + weight) % 10
-        additional_weight += int_child
-
-        new_str += colony[i]
-        new_str += str(signature)
-
-    new_str += colony[-1]
-    return new_str, additional_weight
-
-def weigh_colony_list(colony:str, weight:int):
-    additional_weight = 0
-    new_str = ""
-
-    for i in range(len(colony) - 1):
-        signature = int(colony[i]) - int(colony[i+1])
-        if signature < 0:
-            signature += 10
-        
-        int_child = (signature + weight) % 10
-        additional_weight += int_child
-
-        new_str += colony[i]
-        new_str += str(int_child)
-
-    new_str += colony[-1]
-
-    halved_list = [new_str[i:i+2] for i in range(0, len(new_str)-1)]
-    return halved_list, additional_weight
 
 def get_pairs(pair:str,weight) -> list:
     num = int(pair[0]) - int(pair[1])
