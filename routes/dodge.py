@@ -212,11 +212,13 @@ def get_nearer(safe:list, moves:list) -> tuple:
 
 @app.route('/dodge', methods=['POST'])
 def evaluate():
-    data = request.data.decode().replace("\r\n","N")
-    logging.info("data received: {}".format(data))
+    data = request.data.decode()
+    logging.info("initial data received: {}".format(data))
+    new_data = data.replace("\r\n","N")
+    logging.info("afterwards data received: {}".format(new_data))
     map = []
     row = []
-    for char in data:
+    for char in new_data:
         if char == "N":
             map.append(row)
             row = []
