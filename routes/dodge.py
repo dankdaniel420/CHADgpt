@@ -96,7 +96,7 @@ def find_safe(map:list) -> list:
             if "u" in map[i][j]:
                 for k in range(0,i+1):
                     if (k,j) not in unsafe:
-                        unsafe.append(k,j)  
+                        unsafe.append((k,j))  
             else:
                 safe.append((i,j))
     
