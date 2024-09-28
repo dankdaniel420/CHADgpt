@@ -42,9 +42,7 @@ def evaluate():
                     dict_word = ans
                     corrections.append(dict_word)
                     break
-            
-            dictionary.remove(dict_word)
         
         result.append({"corrections":corrections})
 
-    return json.dumps(result)
+    return result
