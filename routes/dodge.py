@@ -102,8 +102,8 @@ def find_safe(map:list) -> list:
     
     safe = [x for x in safe if x not in unsafe]
 
-    logging.info("safe: {}".format(safe))
-    logging.info("unsafe: {}".format(unsafe))
+    # logging.info("safe: {}".format(safe))
+    # logging.info("unsafe: {}".format(unsafe))
 
     return safe
 
@@ -207,13 +207,13 @@ def get_nearer(safe:list, moves:list) -> tuple:
             elif distance < nearest:
                 best_move = move
     
-    logging.info("bestmove: {}".format(best_move))
+    # logging.info("bestmove: {}".format(best_move))
     return best_move
 
 @app.route('/dodge', methods=['POST'])
 def evaluate():
     data = request.data.decode().replace("\r\n","N")
-    # logging.info("data received: {}".format(data))
+    logging.info("data received: {}".format(data))
     map = []
     row = []
     for char in data:
@@ -240,7 +240,8 @@ def evaluate():
                 instructions = []
                 for i in range(len(x)-1):
                     instructions.append(get_direction(x[i],x[i+1]))
-        
+                
+                logging.info("return: {}".format(instructions))
                 return json.dumps({"instructions":instructions})
             
         new_move_tracker = []
@@ -256,10 +257,11 @@ def evaluate():
 
         move_tracker = new_move_tracker
 
-        logging.info("move history: {}".format(move_tracker))
+        # logging.info("move history: {}".format(move_tracker))
         map = map_class.update_map()
+        logging.info("return: {}".format(map))
         safe = find_safe(map)
 
-
+    logging.info("return: {}".format(None))
     return json.dumps({"instructions":None})
 
