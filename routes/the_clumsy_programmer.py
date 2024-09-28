@@ -47,4 +47,4 @@ def evaluate():
         
         result.append({"corrections":corrections})
 
-    return result
+    return json.dumps(result)
