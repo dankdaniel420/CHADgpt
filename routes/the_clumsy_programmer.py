@@ -24,27 +24,32 @@ def evaluate():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
 
-    corrections = []
-    
-    dictionary = data[0]["dictionary"]
-    mistypes = data[0]["mistypes"]
+    result = []
 
-    if len(mistypes[0]) > 20:
-        result = {"corrections":corrections}
-        return [result]
+    for dict in data:
+        corrections = []
+        dictionary = dict["dictionary"]
+        mistypes = dict["mistypes"]
 
-    for word in mistypes:
-        dict_word = ""
-        for ans in dictionary:
-            if len(ans) != len(word):
-                continue
+        if len(mistypes[0]) > 20:
+            result.append({"corrections":corrections})
 
-            if cmp_words(ans, word):
-                dict_word = ans
-                corrections.append(dict_word)
-                break
+        for word in mistypes:
+            start = word[0]
+            end = word[-1]
+            dict_word = ""
+            for ans in dictionary:
+                if len(ans) != len(word):
+                    continue
+
+                if cmp_words(ans, word):
+                    dict_word = ans
+                    corrections.append(dict_word)
+                    break
+            
+            dictionary.remove(dict_word)
         
-        dictionary.remove(dict_word)
-    
-    result = {"corrections":corrections}
-    return [result]
+        result.append({"corrections":corrections})
+
+
+    return result
