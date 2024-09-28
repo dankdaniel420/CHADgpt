@@ -23,8 +23,12 @@ def evaluate():
 
     for dict in data:
         corrections = []
-        if len(dict["dictionary"][0]) >= 20:
-            continue
+
+        if len(result) ==3:
+            result.append({"corrections":corrections})
+            result.append({"corrections":corrections})
+            result.append({"corrections":corrections})
+            break
 
         dictionary = dict["dictionary"]
         logging.info("dictionary for evaluation {}".format(dictionary[0]))
