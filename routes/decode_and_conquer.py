@@ -18,7 +18,7 @@ def evaluate():
                     "flag": "UB5{w3lc0m3_70_c7f_N0ttyB01}"
                 },
                 "openAiExploration": {
-                    "flag": "FLAG_CONTENT_HERE"
+                    "flag": "sk-{ilOvESpoRTs}"
                 },
                 "dictionaryAttack": {
                     "flag": "UB5{FLAG_CONTENT_HERE}",
